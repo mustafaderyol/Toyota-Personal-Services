@@ -1,0 +1,148 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">
+            Duraklar
+            <button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#myModal" style="float: left; margin-top: -5px;"><span class="glyphicon glyphicon-plus"></span></button>
+        </h3>
+
+    </div>
+    <div class="panel-body" id="printTable1">
+        <table class="table table-hover table-bordered" id="stationsPageTableSearch">
+            <thead>
+                <tr>
+                    <th>İd</th>
+                    <th>Şehir</th>
+                    <th>Güzergah Tipi</th>
+                    <th>Güzergah</th>
+                    <th>Durak Adı</th>
+                    <th>Durak No</th>
+                    <th>Varış Saati</th>
+                    <th>Kalkış Saati</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody id="stationsPageTable">
+                    <% _.each(stationModels, function(station){
+
+                        var cityData,routeTypeData,routeData,routeDataId;
+
+                        _.each(routeModels, function(route){
+                            if(station.get("route_id")==route.get("route_id"))
+                            {
+                                routeData = route.get("route_name");
+                                routeDataId = route.get("route_id");
+
+                                _.each(cityModels, function(city){
+                                    if(route.get("city_id")==city.get("city_id"))
+                                    {
+                                        cityData = city.get("city_name");
+                                    }
+                                });
+
+                                _.each(routeTypeModels, function(routeType){
+                                    if(route.get("route_type_id")==routeType.get("route_type_id"))
+                                    {
+                                        routeTypeData = routeType.get("route_type_name");
+                                    }
+                                });
+                            }
+                        });
+                    %>
+                <tr>
+                    <td style="width: 5%">
+                        <div class="stationEditDivStationId"  id="s_<%= station.get('station_id') %>" style="width: 100%"><%= station.get("station_id") %></div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivCityName"  id="s_<%= station.get('station_id') %>" style="width: 100%"><%= cityData  %></div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivRouteTypeName"  id="s_<%= station.get('station_id') %>" style="width: 100%"><%= routeTypeData  %></div>
+                    </td>
+                    <td>
+                        <div class="stationsEditDivRoute" style="width: 100%" id="route_<%= station.get('station_id') %>"><%= routeData %></div>
+                        <div class="stationsEditDivInputRoute" id="inputRoute<%= station.get('station_id') %>" style="display:none;">
+                        <select class="form-control">
+
+                            <% _.each(routeModels, function(route2){
+                                    if(route2.get("route_id")==routeDataId)
+                                    {
+                            %>
+                                <option value="<%= route2.get('route_id') %>" selected><%= route2.get('route_name') %></option>
+                                 <% }else{ %>
+                                <option value="<%= route2.get('route_id') %>"><%= route2.get('route_name') %></option>
+                                 <% } %>
+                            <% }); %>
+                        </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivStationName" style="width: 100%" id="stationName_<%= station.get('station_id') %>"><%= station.get('station_name') %></div>
+                        <div class="stationEditDivInputStationName" id="inputStationName<%= station.get('station_id') %>" style="display:none;">
+                            <input type="text" class="form-control" value="<%= station.get('station_name') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivStationNo" style="width: 100%" id="stationNo_<%= station.get('station_id') %>"><%= station.get('station_no') %></div>
+                        <div class="stationEditDivInputStationNo" id="inputStationNo<%= station.get('station_id') %>" style="display:none;">
+                            <input type="text" maxlength="2" class="form-control" value="<%= station.get('station_no') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivArrivalTime" style="width: 100%" id="arrivalTime_<%= station.get('station_id') %>"><%= station.get('arrival_time') %></div>
+                        <div class="stationEditDivInputArrivalTime" id="inputArrivalTime<%= station.get('station_id') %>" style="display:none;">
+                            <input type="text" class="form-control" value="<%= station.get('arrival_time') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="stationEditDivDepartureTime" style="width: 100%" id="departureTime_<%= station.get('station_id') %>"><%= station.get('departure_time') %></div>
+                        <div class="stationEditDivInputDepartureTime" id="inputDepartureTime<%= station.get('station_id') %>" style="display:none;">
+                            <input type="text" class="form-control" value="<%= station.get('departure_time') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="stationSubmitAndCancelButton" id="buttonGroups<%= station.get('station_id') %>" style="display: none; width: 80px;">
+                            <button style="float: left; margin-right: 10px;" class="btn btn-sm btn-primary stationEditDivSubmit"  id="submit_<%= station.get('station_id') %>"><span class="glyphicon glyphicon-ok"></span></button>
+                            <button style="float: left;" class="btn btn-sm btn-warning stationEditDivCancel" id="cancel_<%= station.get('station_id') %>"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                        <div class="stationSubmitAndCancelButtonDelete" id="buttonGroupsDelete<%= station.get('station_id') %>">
+                           <button class="btn btn-sm btn-danger stationDeleteButton" id="<%= station.get('station_id') %>"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Durak Ekle</h4>
+            </div>
+            <div class="modal-body">
+                Güzergah:<br>
+                <select  class="form-control form-group-sm" id="stationInputTextRoute">
+                    <option value="">Güzergah Seçiniz</option>
+                    <% _.each(routeModels, function(route){  %>
+                    <option value="<%= route.get('route_id') %>"><%= route.get('route_name') %></option>
+                    <% }); %>
+                </select> <br>
+                Durak Adı:<br>
+                <input type="text" class="form-control form-group-sm" id="stationInputTextStationName" placeholder="Durak Adı"><br>
+                Durak No:<br>
+                <input type="text" style="width: 100px;" maxlength="2" class="form-control form-group-sm" id="stationInputTextStationNo" placeholder="Durak No"><br>
+                Varış Saati:<br>
+                <input type="text" class="form-control form-group-sm" id="stationInputTextArrivalTime" placeholder="Varış Saati"><br>
+                Kalkış Saati:<br>
+                <input type="text" class="form-control form-group-sm" id="stationInputTextDepartureTime" placeholder="Kalkış Saati"><br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="stationSaveButton" data-dismiss="modal">Kaydet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

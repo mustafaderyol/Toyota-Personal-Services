@@ -1,0 +1,70 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">
+            Şehirler
+            <button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#myModal" style="float: left; margin-top: -5px;"><span class="glyphicon glyphicon-plus"></span></button>
+        </h3>
+
+    </div>
+    <div class="panel-body" id="printTable1">
+        <table class="table table-hover table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>İd</th>
+                    <th>Şehir Adı</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody id="citiesTable">
+                <% _.each(cityModels, function(cityModel){
+                    var count=0;
+                %>
+
+                    <% _.each(routeModels, function(route){
+                        if(route.get("city_id")==cityModel.get("city_id"))
+                            count++;
+                    }); %>
+                <tr>
+                    <td style="width: 10%">
+                        <%= cityModel.get("city_id") %>
+                    </td>
+                    <td style="width: 80%">
+                        <div class="cityEditDiv" style="width: 100%" id="<%= cityModel.get('city_id') %>"><%= cityModel.get('city_name') %></div>
+                        <div class="cityEditDivInput" id="input<%= cityModel.get('city_id') %>" style="display:none;">
+                            <input style="width: 90%; float: left; margin-right: 10px;" type="text" class="form-control" value="<%= cityModel.get('city_name') %>">
+                            <button style="float: left; margin-right: 10px;" class="btn btn-sm btn-primary cityEditDivSubmit"  id="submit_<%= cityModel.get('city_id') %>"><span class="glyphicon glyphicon-ok"></span></button>
+                            <button style="float: left;" class="btn btn-sm btn-warning cityEditDivCancel" id="cancel_<%= cityModel.get('city_id') %>"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </td>
+                    <td style="width: 5%">
+                        <% if(count>0){ %>
+                            <button class="btn btn-sm btn-danger cityDeleteButton" disabled id="<%= cityModel.get('city_id') %>"><span class="glyphicon glyphicon-trash"></span></button>
+                        <% } else { %>
+                            <button class="btn btn-sm btn-danger cityDeleteButton" id="<%= cityModel.get('city_id') %>"><span class="glyphicon glyphicon-trash"></span></button>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Şehir Ekle</h4>
+            </div>
+            <div class="modal-body">
+                Şehir Adı:<br>
+                <input type="text" class="form-control form-group-sm" id="cityInputText" placeholder="Şehir">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="citySaveButton" data-dismiss="modal">Kaydet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

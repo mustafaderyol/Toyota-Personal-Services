@@ -1,0 +1,230 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">
+            Güzergahlar
+            <button class="btn btn-sm btn-info"  data-toggle="modal" data-target="#myModal" style="float: left; margin-top: -5px;"><span class="glyphicon glyphicon-plus"></span></button>
+        </h3>
+
+    </div>
+    <div class="panel-body" id="printTable1">
+        <table class="table table-hover table-bordered" id="routesPageTableSearch">
+            <thead>
+                <tr>
+                    <th>İd</th>
+                    <th>Güzergah</th>
+                    <th>Şehir</th>
+                    <th>Güzergah Tipi</th>
+                    <th>Güzergah Toplam Süresi(dk)</th>
+                    <th>Peron No</th>
+                    <th>Servis Aracı</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody id="routesPageTable">
+                <% _.each(routeModels, function(route){
+                    var count=0;
+                %>
+
+                    <% _.each(stationModels, function(station){
+                        if(station.get("route_id")==route.get("route_id"))
+                        {
+                           count++;
+                        }
+                    });
+                    %>
+                <tr>
+                    <td style="width: 5%">
+                        <%= route.get("route_id") %>
+                    </td>
+                    <td>
+                        <div class="routesPageEditDivRoute" style="width: 100%" id="route_<%= route.get('route_id') %>"><%= route.get('route_name') %></div>
+                        <div class="routesPageEditDivInputRoute" id="inputRoute<%= route.get('route_id') %>" style="display:none;">
+                            <input type="text" class="form-control" value="<%= route.get('route_name') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <% _.each(cityModels, function(city){
+                            if(route.get("city_id")==city.get("city_id"))
+                            {
+                        %>
+                        <div class="routesPageEditDivCity" style="width: 100%" id="city_<%= route.get('route_id') %>"><%= city.get("city_name") %></div>
+                        <div class="routesPageEditDivInputCity" id="inputCity<%= route.get('route_id') %>" style="display:none;">
+                        <select class="form-control">
+
+                            <% _.each(cityModels, function(city2){
+                                if(route.get("city_id")==city2.get("city_id"))
+                                {
+                            %>
+                            <option value="<%= city2.get('city_id') %>" selected><%= city2.get('city_name') %></option>
+                                <% }else{ %>
+                            <option value="<%= city2.get('city_id') %>"><%= city2.get('city_name') %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                        </div>
+                        <%
+                            }
+                        %>
+
+                        <% }); %>
+                    </td>
+                    <td>
+
+                        <% _.each(routeTypeModels, function(routeType){
+                        if(route.get("route_type_id")==routeType.get("route_type_id"))
+                        {
+                        %>
+                        <div class="routesPageEditDivRouteType" style="width: 100%" id="routeType_<%= route.get('route_id') %>"><%= routeType.get("route_type_name") %></div>
+                        <div class="routesPageEditDivInputRouteType" id="inputRouteType<%= route.get('route_id') %>" style="display:none;">
+                            <select class="form-control">
+
+                                <% _.each(routeTypeModels, function(routeType2){
+                                if(route.get("route_type_id")==routeType2.get("route_type_id"))
+                                {
+                                %>
+                                <option value="<%= routeType2.get('route_type_id') %>" selected><%= routeType2.get('route_type_name') %></option>
+                                    <% }else{ %>
+                                <option value="<%= routeType2.get('route_type_id') %>"><%= routeType2.get('route_type_name') %></option>
+                                    <% } %>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <%
+                        }
+                        %>
+
+                        <% }); %>
+                    </td>
+                    <td>
+                        <div class="routesPageEditDivTotDuration" style="width: 100%" id="totDuration_<%= route.get('route_id') %>"><%= route.get('tot_duration') %></div>
+                        <div class="routesPageEditDivInputTotDuration" id="inputTotDuration<%= route.get('route_id') %>" style="display:none;">
+                            <input type="text" maxlength="3" class="form-control" value="<%= route.get('tot_duration') %>">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="routesPageEditDivPeronNo" style="width: 100%" id="peronNo_<%= route.get('route_id') %>"><%= route.get('peron_no') %></div>
+                        <div class="routesPageEditDivInputPeronNo" id="inputPeronNo<%= route.get('route_id') %>" style="display:none;">
+                            <input type="text" maxlength="2" class="form-control" value="<%= route.get('peron_no') %>">
+                        </div>
+                    </td>
+                    <td>
+
+                        <div class="routesPageEditDivVehicleType" style="width: 100%" id="vehicleType_<%= route.get('route_id') %>">
+
+                            <%
+                            if(route.get("vehicle_type")=="1")
+                            {
+                            %>
+                            Midibüs
+                            <%
+                            }
+                            else if(route.get("vehicle_type")=="2")
+                            {
+                            %>
+                            Minibüs
+                            <%
+                            }
+                            else
+                            {
+                            %>
+                            Otobüs
+                            <%
+                            }
+                            %>
+                        </div>
+                        <div class="routesPageEditDivInputVehicleType" id="inputVehicleType<%= route.get('route_id') %>" style="display:none;">
+                            <select class="form-control">
+                        <%
+                            if(route.get("vehicle_type")=="1")
+                            {
+                        %>
+                                <option value="1" selected>Midibüs</option>
+                                <option value="2">Minibüs</option>
+                                <option value="3">Otobüs</option>
+                        <%
+                            }
+                            else if(route.get("vehicle_type")=="2")
+                            {
+                        %>
+                                <option value="1">Midibüs</option>
+                                <option value="2" selected>Minibüs</option>
+                                <option value="3">Otobüs</option>
+                        <%
+                            }
+                            else
+                            {
+                        %>
+                                <option value="1">Midibüs</option>
+                                <option value="2">Minibüs</option>
+                                <option value="3" selected>Otobüs</option>
+                        <%
+                            }
+                        %>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="routesPageSubmitAndCancelButton" id="buttonGroups<%= route.get('route_id') %>" style="display: none; width: 80px;">
+                            <button style="float: left; margin-right: 10px;" class="btn btn-sm btn-primary routesPageEditDivSubmit"  id="submit_<%= route.get('route_id') %>"><span class="glyphicon glyphicon-ok"></span></button>
+                            <button style="float: left;" class="btn btn-sm btn-warning routesPageEditDivCancel" id="cancel_<%= route.get('route_id') %>"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                        <div class="routesPageSubmitAndCancelButtonDelete" id="buttonGroupsDelete<%= route.get('route_id') %>">
+                            <% if(count>0){ %>
+                                <button class="btn btn-sm btn-danger routesPageDeleteButton" disabled id="<%= route.get('route_id') %>"><span class="glyphicon glyphicon-trash"></span></button>
+                            <% } else { %>
+                                <button class="btn btn-sm btn-danger routesPageDeleteButton" id="<%= route.get('route_id') %>"><span class="glyphicon glyphicon-trash"></span></button>
+                            <% } %>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Güzergah Ekle</h4>
+            </div>
+            <div class="modal-body">
+                Güzergah Adı:<br>
+                <input type="text" class="form-control form-group-sm" id="routesPageInputTextRouteName" placeholder="Güzergah"><br>
+                Şehir:<br>
+                <select  class="form-control form-group-sm" id="routesPageInputTextCity">
+                    <option value="">Şehir Seçiniz</option>
+                    <% _.each(cityModels, function(city){  %>
+                    <option value="<%= city.get('city_id') %>"><%= city.get('city_name') %></option>
+                    <% }); %>
+                </select> <br>
+                Güzergah Tipi:<br>
+                <select  class="form-control form-group-sm" id="routesPageInputTextRouteType">
+                    <option value="">Güzergah Tipi Seçiniz</option>
+                    <% _.each(routeTypeModels, function(routeType){  %>
+                    <option value="<%= routeType.get('route_type_id') %>"><%= routeType.get('route_type_name') %></option>
+                    <% }); %>
+                </select> <br>
+                Güzergah Toplam Süresi ( Dakika )<br>
+                <input type="text" style="width: 100px;" maxlength="3" class="form-control form-group-sm" id="routesPageInputTextTotDuration" placeholder="Dakika"><br>
+
+                Peron No<br>
+                <input type="text" style="width: 100px;" maxlength="2" class="form-control form-group-sm" id="routesPageInputTextPeronNo" placeholder="Peron No"><br>
+
+                Servis Aracı:<br>
+                <select  class="form-control form-group-sm" id="routesPageInputTextVehicleType">
+                    <option value="">Servis Aracı Seçiniz</option>
+                    <option value="1">Midibüs</option>
+                    <option value="2">Minibüs</option>
+                    <option value="3">Otobüs</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="routesPageSaveButton" data-dismiss="modal">Kaydet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>

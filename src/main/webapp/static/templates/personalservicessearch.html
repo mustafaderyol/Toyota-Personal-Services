@@ -1,0 +1,81 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">Sorgula</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group col-md-3 table-bordered text-center">
+            <label for="sehirselect">Şehir</label>
+            <select class="form-control input-sm" id="sehirselect">
+                <option value=''>Şehir Şeçiniz</option>
+                <% _.each(cityModels, function(cityModel){  %>
+                <option value="<%= cityModel.get('city_id') %>"><%= cityModel.get("city_name") %></option>
+
+                <% }); %>
+            </select>
+            <br>
+        </div>
+        <div class="form-group col-md-3 table-bordered text-center">
+            <label for="guzergahtipiselect">Güzergah Tipi</label>
+            <select class="form-control input-sm" id="guzergahtipiselect">
+                <option value=''>Şehir Şeçiniz</option>
+                <% _.each(routeTypeModels, function(routeTypeModel){  %>
+                <option value="<%= routeTypeModel.get('route_type_id') %>"><%= routeTypeModel.get("route_type_name") %></option>
+
+                <% }); %>
+            </select>
+            <br>
+        </div>
+        <div class="form-group col-md-3 table-bordered text-center">
+            <label for="guzergahselect">Güzergah</label>
+            <select class="form-control input-sm" id="guzergahselect" disabled></select>
+            <br>
+        </div>
+        <div class="form-group col-md-3 table-bordered text-center">
+            <label for="durakselect">Durak</label>
+            <select class="form-control input-sm" id="durakselect" disabled></select>
+            <br>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary" id="printTable1">
+    <div class="panel-body">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Güzergah Toplam Süresi</th>
+                    <th>Kuzey Otoparkı Peron No</th>
+                    <th>Servis Aracı</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td id="tot_duration">...</td>
+                <td id="peron_no">...</td>
+                <td id="vehicle_type">...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-primary" id="printTable2">
+    <div class="panel-body">
+        <table class="table table-hover table-responsive table-bordered">
+            <thead>
+            <tr>
+                <th>Durak Adı</th>
+                <th>Durak No</th>
+                <th>Varış Saati(TMMT'den)</th>
+                <th>Kalkış Saati(TMMT'ye)</th>
+            </tr>
+            </thead>
+            <tbody id="stationTable">
+                <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

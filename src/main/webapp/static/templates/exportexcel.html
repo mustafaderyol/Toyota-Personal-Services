@@ -1,0 +1,294 @@
+<a class="btn btn-sm btn-warning" onclick="return ExcellentExport.excel(this, 'exportTableToExcel', 'PersonalServices');"><span class="glyphicon glyphicon-download-alt"></span> Excel'e Aktar</a>
+<br><br>
+<table class="table" id="exportTableToExcel">
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Şehir</b></td>
+        <td><b>Oluşturma Tarihi</b></td>
+        <td><b>Oluşturan Kişi Id</b></td>
+        <td><b>Değiştirme Tarihi</b></td>
+        <td><b>Değiştiren Kişi Id</b></td>
+    </tr>
+    <% _.each(cityModels, function(cityModel){
+    %>
+
+    <tr>
+        <td><%= cityModel.get("city_id") %></td>
+        <td><%= cityModel.get("city_name") %></td>
+        <td><%= cityModel.get("create_date") %></td>
+        <td><%= cityModel.get("create_uid") %></td>
+        <td><%= cityModel.get("lastupd_date") %></td>
+        <td><%= cityModel.get("lastupd_uid") %></td>
+    </tr>
+    <% }); %>
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Güzergah Tipi</b></td>
+        <td><b>Oluşturma Tarihi</b></td>
+        <td><b>Oluşturan Kişi Id</b></td>
+        <td><b>Değiştirme Tarihi</b></td>
+        <td><b>Değiştiren Kişi Id</b></td>
+    </tr>
+    <% _.each(routeTypeModels, function(routeTypeModel){
+    %>
+
+    <tr>
+        <td><%= routeTypeModel.get("route_type_id") %></td>
+        <td><%= routeTypeModel.get("route_type_name") %></td>
+        <td><%= routeTypeModel.get("create_date") %></td>
+        <td><%= routeTypeModel.get("create_uid") %></td>
+        <td><%= routeTypeModel.get("lastupd_date") %></td>
+        <td><%= routeTypeModel.get("lastupd_uid") %></td>
+    </tr>
+    <% }); %>
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Adı</b></td>
+        <td><b>Soyadı</b></td>
+        <td><b>Kullanıcı Adı</b></td>
+    </tr>
+    <% _.each(sysadmuserModels, function(sysadmuserModel){
+    %>
+
+    <tr>
+        <td><%= sysadmuserModel.get("sysadm_uid") %></td>
+        <td><%= sysadmuserModel.get("first_name") %></td>
+        <td><%= sysadmuserModel.get("last_name") %></td>
+        <td><%= sysadmuserModel.get("username") %></td>
+    </tr>
+    <% }); %>
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td><b>Id</b></td>
+        <td><b>Güzergah</b></td>
+        <td><b>Şehir</b></td>
+        <td><b>Güzergah Tipi</b></td>
+        <td><b>Güzergah Toplam Süresi(dk)</b></td>
+        <td><b>Peron No</b></td>
+        <td><b>Servis Aracı</b></td>
+        <td><b>Oluşturma Tarihi</b></td>
+        <td><b>Oluşturan Kişi Id</b></td>
+        <td><b>Değiştirme Tarihi</b></td>
+        <td><b>Değiştiren Kişi Id</b></td>
+    </tr>
+    <% _.each(routeModels, function(route){
+    var count=0;
+    %>
+
+    <tr>
+        <td>
+            <%= route.get("route_id") %>
+        </td>
+        <td>
+            <%= route.get('route_name') %>
+        </td>
+        <td>
+            <% _.each(cityModels, function(city){
+                if(route.get("city_id")==city.get("city_id"))
+                {
+                %>
+                    <%= city.get("city_name") %>
+                <%
+                }
+                %>
+            <% }); %>
+        </td>
+        <td>
+            <% _.each(routeTypeModels, function(routeType){
+                if(route.get("route_type_id")==routeType.get("route_type_id"))
+                {
+                %>
+                    <%= routeType.get("route_type_name") %>
+                <%
+                }
+                %>
+            <% }); %>
+        </td>
+        <td>
+            <%= route.get('tot_duration') %>
+        </td>
+        <td>
+            <%= route.get('peron_no') %>
+        </td>
+        <td>
+        <%
+            if(route.get("vehicle_type")=="1")
+            {
+            %>
+            Midibüs
+            <%
+            }
+            else if(route.get("vehicle_type")=="2")
+            {
+            %>
+            Minibüs
+            <%
+            }
+            else
+            {
+            %>
+            Otobüs
+            <%
+            }
+            %>
+        </td>
+        <td><%= route.get("create_date") %></td>
+        <td><%= route.get("create_uid") %></td>
+        <td><%= route.get("lastupd_date") %></td>
+        <td><%= route.get("lastupd_uid") %></td>
+    </tr>
+    <% }); %>
+
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td><b>İd</b></td>
+        <td><b>Şehir</b></td>
+        <td><b>Güzergah Tipi</b></td>
+        <td><b>Güzergah</b></td>
+        <td><b>Durak Adı</b></td>
+        <td><b>Durak No</b></td>
+        <td><b>Varış Saati</b></td>
+        <td><b>Kalkış Saati</b></td>
+        <td><b>Oluşturma Tarihi</b></td>
+        <td><b>Oluşturan Kişi Id</b></td>
+        <td><b>Değiştirme Tarihi</b></td>
+        <td><b>Değiştiren Kişi Id</b></td>
+    </tr>
+    <% _.each(stationModels, function(station){
+
+        var cityData,routeTypeData,routeData,routeDataId;
+
+        _.each(routeModels, function(route){
+            if(station.get("route_id")==route.get("route_id"))
+            {
+                routeData = route.get("route_name");
+                routeDataId = route.get("route_id");
+
+                _.each(cityModels, function(city){
+                    if(route.get("city_id")==city.get("city_id"))
+                    {
+                    cityData = city.get("city_name");
+                    }
+                });
+
+                _.each(routeTypeModels, function(routeType){
+                    if(route.get("route_type_id")==routeType.get("route_type_id"))
+                    {
+                    routeTypeData = routeType.get("route_type_name");
+                    }
+                });
+            }
+        });
+    %>
+    <tr>
+        <td>
+            <%= station.get("station_id") %>
+        </td>
+        <td>
+            <%= cityData  %>
+        </td>
+        <td>
+            <%= routeTypeData  %>
+        </td>
+        <td>
+            <%= routeData %>
+        </td>
+        <td>
+            <%= station.get('station_name') %>
+        </td>
+        <td>
+            <%= station.get('station_no') %>
+        </td>
+        <td>
+            <%= station.get('arrival_time') %>
+        </td>
+        <td>
+            <%= station.get('departure_time') %>
+        </td>
+        <td><%= station.get("create_date") %></td>
+        <td><%= station.get("create_uid") %></td>
+        <td><%= station.get("lastupd_date") %></td>
+        <td><%= station.get("lastupd_uid") %></td>
+    </tr>
+    <% }); %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
